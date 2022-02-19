@@ -17,19 +17,9 @@ class CheckoutPutSchema(Schema):
     )
 
 
-class CheckoutGetSchema(Schema):
-    id = fields.Integer(required=True)
-
-
 class CheckoutResource(Resource):
-    def get(self):
-        schema = CheckoutGetSchema()
-        errors = schema.validate(request.args)
-        if errors:
-            abort(400, str(errors))
-        args = schema.dump(request.args)
-
-        checkout = Checkout.find_by_id(args['id'])
+    def get(self, id):
+        checkout = Checkout.find_by_id(id)
         return checkout.json(), 200
 
     def put(self):

@@ -17,7 +17,7 @@ def create_app(db):
     # Setup API
     api = Api(app)
     api.add_resource(ProductResource, '/product')
-    api.add_resource(CheckoutResource, '/checkout')
+    api.add_resource(CheckoutResource, '/checkout', '/checkout/<id>')
     return app
 
 

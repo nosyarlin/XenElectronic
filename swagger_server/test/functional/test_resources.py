@@ -31,6 +31,6 @@ def test_checkout_resource(new_user, test_client, init_database):
 
     # Test get
     response = test_client.get(
-        "/checkout", query_string={'id': response.json['checkoutId']})
+        "/checkout/{}".format(response.json['checkoutId']))
     assert response.status_code == 200
     assert response.json['userId'] == new_user.id
