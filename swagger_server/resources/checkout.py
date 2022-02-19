@@ -25,7 +25,9 @@ class CheckoutResource(Resource):
             abort(400, str(errors))
 
         # Create Checkout
-        userId = request.cookies.get('userID')
+        userId = request.cookies.get('userId')
+        if userId is None:
+            abort(400, 'Please login before proceeding')
         checkout = Checkout(userId)
         checkout.save_to_db()
 

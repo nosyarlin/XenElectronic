@@ -8,7 +8,8 @@ def test_product_resource(test_client, init_database):
     assert product['price'] == 999.99
 
 
-def test_checkout_resource(test_client, init_database):
+def test_checkout_resource(new_user, test_client, init_database):
+    test_client.set_cookie('localhost', 'userId', str(new_user.id))
     response = test_client.put(
         "/checkout",
         json={
