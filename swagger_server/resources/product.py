@@ -8,12 +8,6 @@ class ProductQuerySchema(Schema):
     category = fields.Str(required=True)
 
 
-class ProductPutSchema(Schema):
-    name = fields.Str(required=True)
-    price = fields.Decimal(required=True)
-    categories = fields.List(fields.Integer(required=True), required=True)
-
-
 class ProductResource(Resource):
     def get(self):
         schema = ProductQuerySchema()
