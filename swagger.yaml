@@ -5,9 +5,6 @@ info:
   title: "XenElectronics Web Store"
   contact:
     email: "rayson.ljk@gmail.com"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 basePath: "/"
 schemes:
 - "https"
@@ -16,13 +13,13 @@ paths:
   /search:
     get:
       summary: "Get products for sale"
-      description: ""
+      description: "Searches for products matching given filters."
       operationId: "search"
       parameters:
       - name: "category"
         in: "query"
-        description: "category of products to get for"
-        required: true
+        description: "category of products for filter; repeated"
+        required: false
         type: "string"
         enum: ["home_appliances", "smart_watches", "mobile_phones"]
       responses:
@@ -39,17 +36,23 @@ paths:
                   type: string
                 price:
                   type: number
-        "404":
-          description: "Category not found"
+                description:
+                  type: string
+                categories:
+                  type: array
+                  items:
+                    type: string
+        "400":
+          description: "Bad inputs for filters e.g. invalid category"
   /checkout:
     put:
-      summary: "Saves cart items to database"
-      description: ""
+      summary: "Saves cart items to database and create a checkout"
+      description: "Saves what items this user is purchasing alongside the quantity of each item"
       operationId: "saveCart"
       parameters:
       - name: "products"
         in: "body"
-        description: "The order to create"
+        description: "The checkout to create"
         required: true
         schema:
           type: "array"
@@ -68,28 +71,21 @@ paths:
           schema:
             type: "object"
             properties:
-              orderId:
+              checkoutId:
                 type: "integer"
+  /checkout/{checkoutId}:
     post:
       summary: "Informs server that payment has been made"
       description: ""
       operationId: "payment"
       parameters:
-      - name: "orderId"
-        in: "body"
+      - name: "checkoutId"
+        in: "path"
         description: "The order to pay for"
         required: true
-        schema:
-          type: "integer"
-          example:
-            orderId: 0
+        type: "integer"
       responses:
         "200":
           description: "OK"
-          schema:
-            type: "object"
-            properties:
-              orderId:
-                type: "integer"
 
         
