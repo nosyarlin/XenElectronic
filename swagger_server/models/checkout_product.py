@@ -1,7 +1,8 @@
 from db import db
+from base_model_ import Model
 
 
-class CheckoutProduct(db.Model):
+class CheckoutProduct(Model):
 
     __tablename__ = 'checkout_product'
 

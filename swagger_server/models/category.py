@@ -1,7 +1,8 @@
 from db import db
+from base_model_ import Model
 
 
-class Category(db.Model):
+class Category(Model):
 
     __tablename__ = 'category'
 

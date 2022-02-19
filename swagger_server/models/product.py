@@ -1,7 +1,8 @@
 from db import db
+from base_model_ import Model
 
 
-class Product(db.Model):
+class Product(Model):
 
     __tablename__ = 'product'
 
@@ -14,11 +15,3 @@ class Product(db.Model):
     def __init__(self, name, price):
         self.name = name
         self.price = price
-
-    def save_to_db(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete_from_db(self):
-        db.session.delete(self)
-        db.session.commit()

@@ -1,7 +1,8 @@
 from db import db
+from base_model_ import Model
 
 
-class ProductCategory(db.Model):
+class ProductCategory(Model):
 
     __tablename__ = 'product_category'
 
