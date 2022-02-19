@@ -8,9 +8,8 @@ class Checkout(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, name, price):
-        self.name = name
-        self.price = price
+    def __init__(self, userId):
+        self.userId = userId
 
     @classmethod
     def find_by_id(cls, id):

@@ -4,13 +4,13 @@ from models.product import Product
 from marshmallow import Schema, fields
 
 
-class ProductQuerySchema(Schema):
+class ProductGetSchema(Schema):
     category = fields.Str(required=True)
 
 
 class ProductResource(Resource):
     def get(self):
-        schema = ProductQuerySchema()
+        schema = ProductGetSchema()
         errors = schema.validate(request.args)
         if errors:
             abort(400, str(errors))

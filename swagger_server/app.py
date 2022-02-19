@@ -3,6 +3,7 @@
 from flask import Flask
 from flask_restful import Api
 from resources.product import ProductResource
+from resources.checkout import CheckoutResource
 
 
 def create_app(db):
@@ -16,6 +17,7 @@ def create_app(db):
     # Setup API
     api = Api(app)
     api.add_resource(ProductResource, '/product')
+    api.add_resource(CheckoutResource, '/checkout')
     return app
 
 
