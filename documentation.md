@@ -9,6 +9,7 @@ This project aims to build a MVP for an online store for XenElectronics. In this
 
 # System Design
 The web application will be served from a Flask server with a MySQL database
+
 ![System Design](/assets/system_design.png)
 
 # Wireframe
