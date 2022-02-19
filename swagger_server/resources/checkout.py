@@ -20,7 +20,17 @@ class CheckoutPutSchema(Schema):
 class CheckoutResource(Resource):
     def get(self, id):
         checkout = Checkout.find_by_id(id)
-        return checkout.json(), 200
+        response = {
+            'products': [
+                {
+                    'productId': checkout_product.productId,
+                    'quantity': checkout_product.quantity
+                } for checkout_product in checkout.checkout_products
+            ],
+            'id': id,
+            'userId': checkout.userId
+        }
+        return response, 200
 
     def put(self):
         schema = CheckoutPutSchema()

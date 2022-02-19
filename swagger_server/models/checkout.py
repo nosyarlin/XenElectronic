@@ -7,6 +7,7 @@ class Checkout(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
+    checkout_products = db.relationship("CheckoutProduct")
 
     def __init__(self, userId):
         self.userId = userId
