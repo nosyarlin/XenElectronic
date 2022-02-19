@@ -15,6 +15,12 @@ class Checkout(db.Model):
     def find_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
 
+    def json(self):
+        return {
+            'id': self.id,
+            'userId': self.userId
+        }
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()

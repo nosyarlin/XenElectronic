@@ -9,6 +9,7 @@ def test_product_resource(test_client, init_database):
 
 
 def test_checkout_resource(new_user, test_client, init_database):
+    # Test put
     test_client.set_cookie('localhost', 'userId', str(new_user.id))
     response = test_client.put(
         "/checkout",
@@ -27,3 +28,9 @@ def test_checkout_resource(new_user, test_client, init_database):
     )
     assert response.status_code == 201
     assert isinstance(response.json['checkoutId'], int)
+
+    # Test get
+    response = test_client.get(
+        "/checkout", query_string={'id': response.json['checkoutId']})
+    assert response.status_code == 200
+    assert response.json['userId'] == new_user.id
