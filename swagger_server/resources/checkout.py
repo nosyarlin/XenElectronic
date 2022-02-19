@@ -28,7 +28,8 @@ class CheckoutResource(Resource):
                 } for checkout_product in checkout.checkout_products
             ],
             'id': id,
-            'userId': checkout.userId
+            'userId': checkout.userId,
+            'status': checkout.status.name
         }
         return response, 200
 
@@ -54,3 +55,6 @@ class CheckoutResource(Resource):
             checkout_product.save_to_db()
 
         return {'checkoutId': checkout.id}, 201
+
+    def post(self):
+        pass

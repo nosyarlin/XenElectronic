@@ -1,4 +1,11 @@
+import enum
 from db import db
+
+
+class CheckoutStatus(enum.Enum):
+    created = 'created'
+    paid = 'paid'
+    delivered = 'delivered'
 
 
 class Checkout(db.Model):
@@ -7,6 +14,7 @@ class Checkout(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
+    status = db.Column(db.Enum(CheckoutStatus), default='created')
     checkout_products = db.relationship("CheckoutProduct")
 
     def __init__(self, userId):
