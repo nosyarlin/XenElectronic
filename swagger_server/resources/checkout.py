@@ -1,6 +1,6 @@
 from flask import request, abort
 from flask_restful import Resource
-from models.checkout import Checkout
+from models.checkout import Checkout, CheckoutStatus
 from models.checkout_product import CheckoutProduct
 from marshmallow import Schema, fields
 
@@ -15,6 +15,10 @@ class CheckoutPutSchema(Schema):
         fields.Nested(CheckoutProductPutSchema),
         required=True
     )
+
+
+class CheckoutPostSchema(Schema):
+    status = fields.Str(required=True)
 
 
 class CheckoutResource(Resource):
@@ -56,5 +60,17 @@ class CheckoutResource(Resource):
 
         return {'checkoutId': checkout.id}, 201
 
-    def post(self):
-        pass
+    def post(self, id):
+        schema = CheckoutPostSchema()
+        errors = schema.validate(request.json)
+        if errors:
+            abort(400, str(errors))
+        body = schema.dump(request.json)
+        if body['status'] not in CheckoutStatus._member_names_:
+            abort(400, 'Invalid status')
+
+        # Update checkout status
+        checkout = Checkout.find_by_id(id)
+        checkout.status = CheckoutStatus[body['status']]
+        checkout.save_to_db()
+        return {'checkoutId': id}, 200

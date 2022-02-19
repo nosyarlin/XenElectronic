@@ -22,11 +22,17 @@ def test_checkout_resource(new_user, test_client, init_database):
     assert isinstance(response.json['checkoutId'], int)
 
     # Test get
-    response = test_client.get(
-        "/checkout/{}".format(response.json['checkoutId']))
+    resource_uri = "/checkout/{}".format(response.json['checkoutId'])
+    response = test_client.get(resource_uri)
     assert response.status_code == 200
     assert response.json['userId'] == new_user.id
     assert response.json['status'] == 'created'
     assert len(response.json['products']) == 2
     assert checkout_product_1 in response.json['products']
     assert checkout_product_2 in response.json['products']
+
+    # test post
+    response = test_client.post(resource_uri, json={'status': 'paid'})
+    assert response.status_code == 200
+    response = test_client.get(resource_uri)
+    assert response.json['status'] == 'paid'
