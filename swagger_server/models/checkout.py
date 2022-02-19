@@ -8,7 +8,7 @@ class Checkout(Model):
 
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', db.backref('checkouts', lazy=True))
+    user = db.relationship('User', back_populates="checkouts")
     checkoutProducts = db.relationship(
         'CheckoutProduct', back_populates="checkout")
 
