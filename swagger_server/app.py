@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
 
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 from resources.product import ProductResource
 from resources.checkout import CheckoutResource
 from resources.user import UserResource
+from utils import create_test_data
 
 
-def create_app(db):
+def create_app():
+
+    from db import db
+
     app = Flask(__name__)
+    CORS(app)
     app.app_context().push()
 
     # Setup db
     db.init_app(app)
     db.create_all()
+    create_test_data()
 
     # Setup API
     api = Api(app)
@@ -23,7 +30,10 @@ def create_app(db):
     return app
 
 
-if __name__ == '__main__':
-    from db import db
-    app = create_app(db)
+def main():
+    app = create_app()
     app.run(port=5000, debug=True)
+
+
+if __name__ == '__main__':
+    main()

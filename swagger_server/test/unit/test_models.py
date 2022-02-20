@@ -1,11 +1,13 @@
+from models.user import User
 
 
-def test_new_user(test_client, new_user):
+def test_new_user(test_client):
     """
     GIVEN a User model
     WHEN a new User is created
     THEN check the username, password, and id fields are defined correctly
     """
-    assert new_user.username == 'TestUser'
-    assert new_user.password == 'password'
-    assert isinstance(new_user.id, int)
+    user = User.find_by_username('TestUser')
+    assert user.username == 'TestUser'
+    assert user.password == 'password'
+    assert isinstance(user.id, int)
