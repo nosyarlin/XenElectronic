@@ -81,8 +81,6 @@ export default function Home() {
         );
     }
 
-    console.log(checkoutProducts);
-
     return(
         <div>
             <Navbar onClick={setCategory} toggleCart={toggleCart}/>
