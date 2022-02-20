@@ -47,15 +47,22 @@ export default function Home() {
     }
 
     function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
         if (productId in checkoutProducts) {
             setCheckoutProducts({
                 ...checkoutProducts,
-                [productId]: checkoutProducts[productId] + 1
+                [productId]: {
+                    ...product,
+                    quantity: checkoutProducts[productId].quantity + 1
+                }
             });
         } else {
             setCheckoutProducts({
                 ...checkoutProducts,
-                [productId]: 1
+                [productId]: {
+                    ...product,
+                    quantity: 1
+                }
             });
         }
         setlastProductAddedToCart(productId);
@@ -74,12 +81,14 @@ export default function Home() {
         );
     }
 
+    console.log(checkoutProducts);
+
     return(
         <div>
             <Navbar onClick={setCategory} toggleCart={toggleCart}/>
             {showCart && <CartModal
                 toggleCart={toggleCart}
-                checkoutProduct={checkoutProducts}
+                checkoutProducts={checkoutProducts}
             />}
             <AddToCartAlert/>
             <div className="container">
