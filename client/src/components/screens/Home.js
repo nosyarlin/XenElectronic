@@ -37,7 +37,7 @@ export default function Home() {
             requestBody,
             (error, data, response) => {
                 if (error) {
-                    console.log(response);
+                    console.error(error);
                 }
             });
     });
