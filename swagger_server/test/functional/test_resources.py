@@ -41,8 +41,10 @@ def test_checkout_resource(new_user, test_client, init_database):
 def test_user_resource(new_user, test_client, init_database):
     # Test login
     response = test_client.post('/login', json={
-        'username': new_user.username,
-        'password': new_user.password
+        'credentials': {
+            'username': new_user.username,
+            'password': new_user.password
+        }
     })
     cookie = next(
         (cookie for cookie in test_client.cookie_jar if cookie.name == "userId"),

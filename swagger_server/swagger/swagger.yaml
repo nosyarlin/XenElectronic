@@ -116,3 +116,35 @@ paths:
             properties:
               checkoutId:
                 type: "integer"
+  /login:
+    post:
+      summary: "Authenticates the user"
+      description: "Submit username and password through this endpoint. The server will return a cookie if username and password are correct"
+      operationId: "login"
+      parameters:
+      - name: "credentials"
+        in: "body"
+        required: True
+        schema:
+          type: "object"
+          required:
+          - "username"
+          - "password"
+          properties:
+            username:
+              type: "string"
+            password:
+              type: "string"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        "400":
+          description: "Bad inputs e.g. missing username"
+        "401":
+          description: "Incorrect username or password"
+          
