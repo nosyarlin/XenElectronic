@@ -8,6 +8,8 @@ export default function Home() {
     const [category, setCategory] = useState('home appliances');
     const [showCart, setShowCart] = useState(false);
     const [products, setProducts] = useState([]);
+    const [checkoutProducts, setCheckoutProducts] = useState({});
+    const [lastProductAddedToCart, setlastProductAddedToCart] = useState(null);
 
     // Query for products
     useEffect(() => {
@@ -44,10 +46,42 @@ export default function Home() {
         setShowCart(!showCart);
     }
 
+    function addToCart(productId) {
+        if (productId in checkoutProducts) {
+            setCheckoutProducts({
+                ...checkoutProducts,
+                [productId]: checkoutProducts[productId] + 1
+            });
+        } else {
+            setCheckoutProducts({
+                ...checkoutProducts,
+                [productId]: 1
+            });
+        }
+        setlastProductAddedToCart(productId);
+    }
+
+    function AddToCartAlert() {
+        if (lastProductAddedToCart === null) {
+            return null;
+        }
+
+        const product = products.find(p => p.id === lastProductAddedToCart);
+        return (
+            <div className="alert alert-success" role="alert">
+                {`Added ${product.name} to cart successfully`}
+            </div>
+        );
+    }
+
     return(
         <div>
             <Navbar onClick={setCategory} toggleCart={toggleCart}/>
-            {showCart && <CartModal toggleCart={toggleCart}/>}
+            {showCart && <CartModal
+                toggleCart={toggleCart}
+                checkoutProduct={checkoutProducts}
+            />}
+            <AddToCartAlert/>
             <div className="container">
                 <div className="row">
                     {products.map(
@@ -57,6 +91,7 @@ export default function Home() {
                             id={product.id}
                             name={product.name}
                             price={product.price}
+                            addToCart={addToCart}
                         />))}
                 </div>
             </div>
