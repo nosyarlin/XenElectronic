@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../parts/Navbar';
-import Card from '../parts/Card';
+import ProductCard from '../parts/ProductCard';
+import CartModal from '../parts/CartModal';
 import { DefaultApi } from 'xen_electronics_web_store';
 
 export default function Home() {
@@ -41,11 +42,12 @@ export default function Home() {
     return(
         <div>
             <Navbar onClick={setCategory}/>
+            <CartModal/>
             <div className="container">
-                <div class="row">
+                <div className="row">
                     {products.map(
                         product => (
-                        <Card
+                        <ProductCard
                             key={product.id}
                             id={product.id}
                             name={product.name}
