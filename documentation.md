@@ -14,3 +14,6 @@ The web application will be served from a Flask server with a MySQL database
 
 # Wireframe
 ![Wireframe](/assets/wireframe.png)
+
+# Entity-relationship
+![EntityRelationship](/assets/entity_relationship.png)
