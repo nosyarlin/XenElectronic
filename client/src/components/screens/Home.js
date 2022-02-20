@@ -32,7 +32,9 @@ export default function Home() {
         apiInstance.login(
             requestBody,
             (error, data, response) => {
-                console.log(response);
+                if (error) {
+                    console.log(response);
+                }
             });
     });
 
