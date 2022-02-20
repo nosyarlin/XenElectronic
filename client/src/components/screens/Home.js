@@ -3,13 +3,17 @@ import Navbar from '../parts/Navbar';
 import ProductCard from '../parts/ProductCard';
 import CartModal from '../parts/CartModal';
 import { DefaultApi } from 'xen_electronics_web_store';
+import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+export default function Home(props) {
     const [category, setCategory] = useState('home appliances');
     const [showCart, setShowCart] = useState(false);
     const [products, setProducts] = useState([]);
     const [checkoutProducts, setCheckoutProducts] = useState({});
     const [lastProductAddedToCart, setlastProductAddedToCart] = useState(null);
+  
+    const navigate = useNavigate(); 
+
 
     // Query for products
     useEffect(() => {
@@ -103,6 +107,25 @@ export default function Home() {
         );
     }
 
+    function checkout() {
+        const apiInstance = new DefaultApi();
+        const requestBody = Object.keys(checkoutProducts).map((key) => {
+            const checkoutProduct = checkoutProducts[key];
+            return {
+                productId: checkoutProduct.id,
+                quantity: checkoutProduct.quantity
+            }
+        });
+        apiInstance.saveCart({products: requestBody}, (error, data, response) => {
+            if (error) {
+                console.error(error);
+            } else {
+                props.setCheckoutId(data['checkoutId']);
+            }
+        });
+        navigate('/checkout');
+    }
+
     return(
         <div>
             <Navbar onClick={setCategory} toggleCart={toggleCart}/>
@@ -111,6 +134,7 @@ export default function Home() {
                 checkoutProducts={checkoutProducts}
                 addToCart={addToCart}
                 minusFromCart={minusFromCart}
+                checkout={checkout}
             />}
             <AddToCartAlert/>
             <div className="container">
