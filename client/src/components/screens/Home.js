@@ -6,6 +6,7 @@ import { DefaultApi } from 'xen_electronics_web_store';
 
 export default function Home() {
     const [category, setCategory] = useState('home appliances');
+    const [showCart, setShowCart] = useState(false);
     const [products, setProducts] = useState([]);
 
     // Query for products
@@ -39,10 +40,14 @@ export default function Home() {
             });
     });
 
+    function toggleCart() {
+        setShowCart(!showCart);
+    }
+
     return(
         <div>
-            <Navbar onClick={setCategory}/>
-            <CartModal/>
+            <Navbar onClick={setCategory} toggleCart={toggleCart}/>
+            {showCart && <CartModal toggleCart={toggleCart}/>}
             <div className="container">
                 <div className="row">
                     {products.map(
