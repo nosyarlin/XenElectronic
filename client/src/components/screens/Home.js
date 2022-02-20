@@ -93,6 +93,9 @@ export default function Home() {
         }
 
         const product = products.find(p => p.id === lastProductAddedToCart);
+        if (!product) {
+            return null;
+        }
         return (
             <div className="alert alert-success" role="alert">
                 {`Added ${product.name} to cart successfully`}
