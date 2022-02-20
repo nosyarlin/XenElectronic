@@ -18,5 +18,3 @@ function App() {
 }
 
 export default App;
-var XenElectronicsWebStore = require('xen_electronics_web_store');
-window.api = new XenElectronicsWebStore.DefaultApi();
