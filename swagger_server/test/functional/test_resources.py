@@ -36,3 +36,18 @@ def test_checkout_resource(new_user, test_client, init_database):
     assert response.status_code == 200
     response = test_client.get(resource_uri)
     assert response.json['status'] == 'paid'
+
+
+def test_user_resource(new_user, test_client, init_database):
+    # Test login
+    response = test_client.post('/login', json={
+        'username': new_user.username,
+        'password': new_user.password
+    })
+    cookie = next(
+        (cookie for cookie in test_client.cookie_jar if cookie.name == "userId"),
+        None
+    )
+    assert response.status_code == 200
+    assert cookie is not None
+    assert cookie.value == str(new_user.id)
