@@ -22,14 +22,16 @@ export default function Home() {
         <div>
             <Navbar onClick={setCategory}/>
             <div className="container">
-                {products.map(
-                    product => (
-                    <Card
-                        key={product.id}
-                        id={product.id}
-                        name={product.name}
-                        price={product.price}
-                    />))}
+                <div class="row">
+                    {products.map(
+                        product => (
+                        <Card
+                            key={product.id}
+                            id={product.id}
+                            name={product.name}
+                            price={product.price}
+                        />))}
+                </div>
             </div>
         </div>
     )

@@ -25,8 +25,24 @@ def create_test_products():
             'price': 999.99,
             'categories': ['home appliances']
         },
+        'television': {
+            'price': 1309.99,
+            'categories': ['home appliances']
+        },
+        'microwave': {
+            'price': 99.90,
+            'categories': ['home appliances']
+        },
         'galaxy gear': {
             'price': 400.00,
+            'categories': ['smart watches']
+        },
+        'garmin venu 2s': {
+            'price': 430.00,
+            'categories': ['smart watches']
+        },
+        'apple watch': {
+            'price': 650.00,
             'categories': ['smart watches']
         },
         'galaxy s22': {
