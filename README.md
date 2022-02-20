@@ -17,11 +17,7 @@ yarn 1.22+
 direnv
 
 ## Server Usage
-First follow the instructions on https://direnv.net/ and install and activate direnv. This is required for setting PYTHONPATH. After that is done, add a root level .envrc file.
-```
-layout python3
-```
-
+First follow the instructions on https://direnv.net/ and install and activate direnv inside the `swagger_server` directory. This is required for setting PYTHONPATH.
 Next, add a .envrc file inside the `swagger_server` directory
 ```
 export PYTHONPATH=${PYTHONPATH}:.
