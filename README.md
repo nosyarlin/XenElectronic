@@ -11,10 +11,10 @@ This is a MVP for an online web store for XenElectronics. For the purpose of thi
 For the interest of time, login feature was not implemented. For parts of the api that requires userId, a test userId was hardcoded. In a real web store, the server will return a cookie after the user has authenticated themselves and we will use the cookie in future requests. 
 
 ## Requirements
-Python 3.5.2+
-node 14+
-yarn 1.22+
-direnv
++ Python 3.5.2+
++ node 14+
++ yarn 1.22+
++ direnv
 
 ## Server Usage
 First follow the instructions on https://direnv.net/ and install and activate direnv inside the `swagger_server` directory. This is required for setting PYTHONPATH.
