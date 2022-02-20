@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd client
+yarn start &
+cd ../swagger_server
+export PYTHONPATH=${PYTHONPATH}:.
+flask run
