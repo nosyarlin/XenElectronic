@@ -68,6 +68,25 @@ export default function Home() {
         setlastProductAddedToCart(productId);
     }
 
+    function minusFromCart(productId) {
+        const product = products.find(p => p.id === productId);
+        if (productId in checkoutProducts && checkoutProducts[productId].quantity > 1) {
+            setCheckoutProducts({
+                ...checkoutProducts,
+                [productId]: {
+                    ...product,
+                    quantity: checkoutProducts[productId].quantity - 1
+                }
+            });
+        } else {
+            let tmpCheckoutProduct = {
+                ...checkoutProducts
+            }
+            delete tmpCheckoutProduct[productId];
+            setCheckoutProducts(tmpCheckoutProduct);
+        }
+    }
+
     function AddToCartAlert() {
         if (lastProductAddedToCart === null) {
             return null;
@@ -87,6 +106,8 @@ export default function Home() {
             {showCart && <CartModal
                 toggleCart={toggleCart}
                 checkoutProducts={checkoutProducts}
+                addToCart={addToCart}
+                minusFromCart={minusFromCart}
             />}
             <AddToCartAlert/>
             <div className="container">
