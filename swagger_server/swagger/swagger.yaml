@@ -1,0 +1,156 @@
+swagger: "2.0"
+info:
+  description: "This is a MVP web store for XenElectronics"
+  version: "0.0.1"
+  title: "XenElectronics Web Store"
+  contact:
+    email: "rayson.ljk@gmail.com"
+basePath: "/"
+schemes:
+- "https"
+- "http"
+paths:
+  /search:
+    get:
+      summary: "Get products for sale"
+      description: "Searches for products matching given filters."
+      operationId: "search"
+      parameters:
+      - name: "category"
+        in: "query"
+        description: "category of products for filter"
+        required: false
+        type: "string"
+        enum: ["home appliances", "smart watches", "mobile phones"]
+      responses:
+        "200":
+          description: "A complex object array of products"
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                categories:
+                  type: array
+                  items:
+                    type: string
+        "400":
+          description: "Bad inputs for filters e.g. invalid category"
+  /checkout:
+    put:
+      summary: "Saves cart items to database and create a checkout"
+      description: "Saves what items this user is purchasing alongside the quantity of each item"
+      consumes:
+        - "application/json"
+      operationId: "saveCart"
+      parameters:
+      - name: "products"
+        in: "body"
+        description: "The checkout to create"
+        required: true
+        schema:
+          type: "array"
+          items:
+            type: "object"
+            required:
+            - "product"
+            properties:
+              productId:
+                type: "integer"
+              quantity:
+                type: "integer"
+      responses:
+        "201":
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              checkoutId:
+                type: "integer"
+        "400":
+          description: "Bad inputs for products or unauthorized access"
+  /checkout/{checkoutId}:
+    post:
+      summary: "Informs server that payment has been made"
+      description: "Checkouts are created before payment is made. Use this endpoint to update the status on the checkout to 'paid'"
+      consumes:
+        - "application/json"
+      operationId: "payment"
+      parameters:
+      - name: "checkoutId"
+        in: "path"
+        description: "The order to pay for"
+        required: true
+        type: "integer"
+      - name: "status"
+        in: "body"
+        description: "new status for checkout"
+        required: true
+        schema:
+          type: "string"
+          enum: ["created", "paid", "delivered"]
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "Bad inputs for status e.g. invalid status"
+    get:
+      summary: "Get products and quantities for checkout"
+      description: "See what products and how many of each product is in a checkout along with the userId the checkout is associated with"
+      operationId: "getCheckout"
+      parameters:
+      - name: "checkoutId"
+        in: "path"
+        description: "The order to read"
+        required: true
+        type: "integer"
+      responses:
+        "201":
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              checkoutId:
+                type: "integer"
+  /login:
+    post:
+      summary: "Authenticates the user"
+      description: "Submit username and password through this endpoint. The server will return a cookie if username and password are correct"
+      consumes:
+        - "application/json"
+      operationId: "login"
+      parameters:
+      - name: "credentials"
+        in: "body"
+        required: True
+        schema:
+          type: "object"
+          required:
+          - "username"
+          - "password"
+          properties:
+            username:
+              type: "string"
+            password:
+              type: "string"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        "400":
+          description: "Bad inputs e.g. missing username"
+        "401":
+          description: "Incorrect username or password"
+          
