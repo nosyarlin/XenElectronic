@@ -73,12 +73,11 @@ export default function Home(props) {
     }
 
     function minusFromCart(productId) {
-        const product = products.find(p => p.id === productId);
         if (productId in checkoutProducts && checkoutProducts[productId].quantity > 1) {
             setCheckoutProducts({
                 ...checkoutProducts,
                 [productId]: {
-                    ...product,
+                    ...checkoutProducts[productId],
                     quantity: checkoutProducts[productId].quantity - 1
                 }
             });
