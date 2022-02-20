@@ -1,4 +1,3 @@
----
 swagger: "2.0"
 info:
   description: "This is a MVP web store for XenElectronics"
@@ -19,51 +18,48 @@ paths:
       parameters:
       - name: "category"
         in: "query"
-        description: "category of products for filter; repeated"
+        description: "category of products for filter"
         required: false
         type: "string"
-        enum:
-        - "home_appliances"
-        - "smart_watches"
-        - "mobile_phones"
+        enum: ["home appliances", "smart watches", "mobile phones"]
       responses:
         "200":
           description: "A complex object array of products"
           schema:
-            type: "array"
+            type: array
             items:
-              type: "object"
+              type: object
               properties:
                 id:
-                  type: "integer"
+                  type: integer
                 name:
-                  type: "string"
+                  type: string
                 price:
-                  type: "number"
+                  type: number
                 description:
-                  type: "string"
+                  type: string
                 categories:
-                  type: "array"
+                  type: array
                   items:
-                    type: "string"
+                    type: string
         "400":
           description: "Bad inputs for filters e.g. invalid category"
-      x-swagger-router-controller: "swagger_server.controllers.default_controller"
   /checkout:
     put:
       summary: "Saves cart items to database and create a checkout"
-      description: "Saves what items this user is purchasing alongside the quantity\
-        \ of each item"
-      operationId: "save_cart"
+      description: "Saves what items this user is purchasing alongside the quantity of each item"
+      operationId: "saveCart"
       parameters:
-      - in: "body"
-        name: "products"
+      - name: "products"
+        in: "body"
         description: "The checkout to create"
         required: true
         schema:
           type: "array"
           items:
             type: "object"
+            required:
+            - "product"
             properties:
               productId:
                 type: "integer"
@@ -77,11 +73,12 @@ paths:
             properties:
               checkoutId:
                 type: "integer"
-      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+        "400":
+          description: "Bad inputs for products or unauthorized access"
   /checkout/{checkoutId}:
     post:
       summary: "Informs server that payment has been made"
-      description: ""
+      description: "Checkouts are created before payment is made. Use this endpoint to update the status on the checkout to 'paid'"
       operationId: "payment"
       parameters:
       - name: "checkoutId"
@@ -89,7 +86,33 @@ paths:
         description: "The order to pay for"
         required: true
         type: "integer"
+      - name: "status"
+        in: "body"
+        description: "new status for checkout"
+        required: true
+        schema:
+          type: "string"
+          enum: ["created", "paid", "delivered"]
       responses:
         "200":
           description: "OK"
-      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+        "400":
+          description: "Bad inputs for status e.g. invalid status"
+    get:
+      summary: "Get products and quantities for checkout"
+      description: "See what products and how many of each product is in a checkout along with the userId the checkout is associated with"
+      operationId: "getCheckout"
+      parameters:
+      - name: "checkoutId"
+        in: "path"
+        description: "The order to read"
+        required: true
+        type: "integer"
+      responses:
+        "201":
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              checkoutId:
+                type: "integer"
