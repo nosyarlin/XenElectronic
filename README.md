@@ -46,7 +46,9 @@ python3 -m pytest --cov=.
 ## Client Usage
 The client is written in react. To run it, go to the `client` directory and run 
 ```
+yarn install
 yarn build
+yarn start
 ```
 
 and open your browser to here:
