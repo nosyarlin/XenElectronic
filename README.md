@@ -61,3 +61,7 @@ Once you have setup everything and ensured that you can start both the server an
 ```
 ./start_app
 ```
+
+## Security
+### SQL Injection
+This project was built using SQL Alchemy as the ORM and no raw SQL statements were used. This gives the project protection against SQL injection attacks. 
